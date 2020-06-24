@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<link href="css/sweetalert.css" rel="stylesheet">
+<link href="css/application.css" rel="stylesheet">
+<title>商城</title>
+</head>
+<body>
+<nav id="menu" >
+	<ul class="menu">
+		<li><a href="index.html"><img src="img/icons/glass.png">秒杀</a>
+		</li>
+		<li><a href="#"><img src="img/icons/glass.png">眼镜</a>
+			<ul>
+				<li><a href="list.html">男士</a></li>
+				<li><a href="list.html">女士</a></li>
+			</ul>
+		</li>
+		<li><a href="#"><img src="img/icons/mc.png">男装</a>
+			<ul>
+				<li><a href="list.html">大衣</a></li>
+				<li><a href="list.html">西裤</a></li>
+			</ul>
+		</li>
+		<li><a href="#"><img src="img/icons/od.png">户外</a>
+			<ul>
+				<li><a href="list.html">户外鞋</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+<div class="mmenu-page">
+<header>
+	<div class="headerbar">
+		<h1>首页</h1><span id="user"></span>
+		<a class="hides" style="color: #ff0000" href="register.html">请注册</a>
+		<a class="hides"  style="color: red" href="password.html">请登录</a>
+		<a class="navbar-toggle" type="button" href="#menu">
+    	<span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+		</a>
+	</div>
+</header>
+<div class="slide">
+	<ul>
+		<li><a href="detail.html"><img src="resource/banner0.png" /></a></li>
+		<li><a href="detail.html"><img src="resource/banner1.png" /></a></li>
+		<li><a href="detail.html"><img src="resource/banner2.png" /></a></li>
+		<li><a href="detail.html"><img src="resource/banner3.png" /></a></li>
+		<li><a href="detail.html"><img src="resource/banner4.png" /></a></li>
+	</ul>
+	<div class="dot">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+<section>
+	<div class="category" id="listall">
+		<h2>秒杀专区</h2>
+<!--		<div class="thumbnail">-->
+<!--			<a href="detail.html">-->
+<!--				<img src="resource/1.png">-->
+<!--				<div class="caption">-->
+<!--					<h3>声波牙刷·澎湃</h3>-->
+<!--					<p>再见上世纪的手刷方式</p>-->
+<!--					<div class="price">-->
+<!--						1100<i>元</i>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</a>-->
+<!--		</div>-->
+
+
+
+	</div>
+</section>
+
+<footer>
+	<div class="footheight"></div>
+	<div class="row footbar">
+		<a class="col-4 text-center active" href="index.html" ><span class="icon-home"></span>首页</a>
+		<a class="col-4 text-center" href="cart.html" ><span class="icon-cart2"></span>购物车</a>
+		<a class="col-4 text-center" href="profile.html" ><span class="icon-user2"></span>我的</a>
+	</div>
+</footer>
+</div>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/swipeSlide.min.js" type="text/javascript"></script>
+<script src="js/sweetalert.min.js" type="text/javascript"></script>
+<script src="js/jquery.touchSwipe.min.js"  type="text/javascript" ></script>
+<script src="js/jquery.mmenu.min.js" type="text/javascript"></script>
+<script src="js/application.js" type="text/javascript"></script>
+<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+<script>
+$(function(){
+	$('nav#menu').mmenu({
+					position:"left",
+					slidingSubmenus:false,
+					navbar: {
+            "add": false
+         },
+				 onClick:{
+					 preventDefault:false,
+					 close:false
+				 }
+  });
+	// var data = window.location.href.split("?")[1].split("=")[1];
+	// alert(data)
+	/**
+	 * 请求后台秒杀商品详情
+	 */
+	$.ajax({
+		//请求方式
+
+		type : "GET",
+		//请求的媒体类型
+		// contentType: "application/json;charset=UTF-8",
+		//请求地址
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		url : "http://api.leyou.com/api/auto/verify",
+		//数据，json字符串
+		// data : {"username":user,"password":password},
+		//请求成功
+		success : function(result) {
+			console.log(result);
+			//如果登录隐藏，并显示用户
+			$(".hides").hide();
+			$("#user").html("你好"+result.username)
+			// window.location.href="http://www.leyou.com/index.html";
+			// console.log($.cookie('COOKNA'))
+		},
+		//请求失败，包含具体的错误信息
+		error : function(e){
+			console.log(e.status);
+			console.log(e.responseText);
+		}
+	});
+
+	var divshow = $("#listall");
+	// divshow.text("");// 清空数据
+	$.ajax({
+		//请求方式
+
+		type : "GET",
+		//请求的媒体类型
+		// contentType: "application/json;charset=UTF-8",
+		//请求地址
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		url : "http://api.leyou.com/api/h5/miaosha/list",
+		// url : "http://localhost:6767/miaosha/list",
+		//数据，json字符串
+		// data : {"username":user,"password":password},
+		//请求成功
+		success : function(result) {
+			console.log(result);
+			//
+			var t='';
+			for(var i=0;i<result.length;i++){
+				var str='<div class="thumbnail">\n' +
+						'\t\t\t<a href="detailmiaosha.html?id='+result[i].id+'">\n' +
+						'\t\t\t\t<img src="resource/1.png">\n' +
+						'\t\t\t\t<div class="caption">\n' +
+						'\t\t\t\t\t<h3>'+result[i].itemName+'</h3>\n' +
+						'\t\t\t\t\t<p>总数'+result[i].total+'</p>\n' +
+						'\t\t\t\t\t<p>开始时间'+result[i].startTime+'</p>\n' +
+						'\t\t\t\t\t<p>结束时间'+result[i].endTime+'</p>\n' +
+						'\t\t\t\t</div>\n' +
+						'\t\t\t</a>\n' +
+						'\t\t</div>';
+				divshow.append(str);
+			}
+
+		},
+		//请求失败，包含具体的错误信息
+		error : function(e){
+			console.log(e.status);
+			console.log(e.responseText);
+		}
+	});
+
+
+	$(document).on("click","nav.mmenu",function(e){
+		var target  = $(e.target);
+		if(target.closest("ul.menu").length == 0 ){
+			 $(".navbar-toggle").trigger("click")
+		}
+	});
+});
+</script>
+</body>
+</html>
