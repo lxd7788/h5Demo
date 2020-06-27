@@ -32,7 +32,7 @@
 		<div>
 			<span class="icon-cellphone"></span>
 			<input type="text" class="logininput" id="code" placeholder="请输入手机验证码">
-			<a class="sendvercode" onclick="send()">发送验证码</a>
+			<a class="sendvercode" onclick="send()" style="cursor:pointer" ;>发送验证码</a>
 		</div>
 		<div>
 			<span class="icon-userlogin"></span>
@@ -84,6 +84,7 @@
 				},
 				crossDomain: true,
 				url : "http://api.leyou.com/api/regis/code",
+				// url : "http://127.0.0.1:10010/api/regis/code",
 				//数据，json字符串
 				data : {"phone":phone},
 				//请求成功
