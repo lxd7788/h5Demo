@@ -52,11 +52,11 @@
 </header>
 <div class="slide">
 	<ul>
-		<li><a href="detail.html"><img src="resource/banner0.png" /></a></li>
-		<li><a href="detail.html"><img src="resource/banner1.png" /></a></li>
-		<li><a href="detail.html"><img src="resource/banner2.png" /></a></li>
-		<li><a href="detail.html"><img src="resource/banner3.png" /></a></li>
-		<li><a href="detail.html"><img src="resource/banner4.png" /></a></li>
+		<li><a href="detail.html"><img src="resource/m0.jpg" /></a></li>
+		<li><a href="detail.html"><img src="resource/m1.jpg" /></a></li>
+		<li><a href="detail.html"><img src="resource/m2.jpg" /></a></li>
+		<li><a href="detail.html"><img src="resource/m3.jpg" /></a></li>
+<!--		<li><a href="detail.html"><img src="resource/banner4.png" /></a></li>-->
 	</ul>
 	<div class="dot">
 		<span></span>
@@ -67,60 +67,23 @@
 	</div>
 </div>
 <section>
-	<div class="category">
+	<div class="category" id="listall">
 		<h2>商品专区</h2>
-		<div class="thumbnail">
-			<a href="detail.html">
-				<img src="resource/1.png">
-				<div class="caption">
-					<h3>声波牙刷·澎湃</h3>
-					<p>再见上世纪的手刷方式</p>
-					<p>再见上世纪的手刷方式</p>
-					<div class="price">
-						1100<i>元</i>
-					</div>
-				</div>
-			</a>
-		</div>
-		<div class="thumbnail">
-			<a href="detail.html">
-				<img src="resource/1.png">
-				<div class="caption">
-					<h3>声波牙刷·澎湃</h3>
-					<p>再见上世纪的手刷方式</p>
-					<p>再见上世纪的手刷方式</p>
-					<div class="price">
-						11200<i>元</i>
-					</div>
-				</div>
-			</a>
-		</div>
-		<div class="thumbnail">
-			<a href="detail.html">
-				<img src="resource/1.png">
-				<div class="caption">
-					<h3>声波牙刷·澎湃</h3>
-					<p>再见上世纪的手刷方式</p>
-					<p>再见上世纪的手刷方式</p>
-					<div class="price">
-						100<i>元</i>
-					</div>
-				</div>
-			</a>
-		</div>
-		<div class="thumbnail">
-			<a href="detail.html">
-				<img src="resource/1.png">
-				<div class="caption">
-					<h3>声波牙刷·澎湃</h3>
-					<p>再见上世纪的手刷方式</p>
-					<p>再见上世纪的手刷方式</p>
-					<div class="price">
-						29<i>元</i>
-					</div>
-				</div>
-			</a>
-		</div>
+<!--		<div class="thumbnail">-->
+<!--			<a href="detail.html">-->
+<!--				<img src="resource/1.png">-->
+<!--				<div class="caption">-->
+<!--					<h3>声波牙刷·澎湃</h3>-->
+<!--					<p>再见上世纪的手刷方式</p>-->
+<!--					<p>再见上世纪的手刷方式</p>-->
+<!--					<div class="price">-->
+<!--						1100<i>元</i>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</a>-->
+<!--		</div>-->
+
+
 	</div>
 </section>
 
@@ -154,8 +117,6 @@ $(function(){
 				 }
   });
 	$.ajax({
-		//请求方式
-
 		type : "GET",
 		//请求的媒体类型
 		// contentType: "application/json;charset=UTF-8",
@@ -182,6 +143,61 @@ $(function(){
 			console.log(e.responseText);
 		}
 	});
+
+	//列表
+
+
+	var divshow = $("#listall");
+	// divshow.text("");// 清空数据
+	$.ajax({
+		//请求方式
+
+		type : "GET",
+		//请求的媒体类型
+		// contentType: "application/json;charset=UTF-8",
+		//请求地址
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		url : "http://api.leyou.com/api/h5/miaosha/itemList",
+		// url : "http://localhost:6767/miaosha/list",
+		//数据，json字符串
+		// data : {"username":user,"password":password},
+		//请求成功
+		success : function(result) {
+			console.log(result);
+			//
+
+			var t='';
+			for(var i=0;i<result.length;i++){
+				var str='<div class="thumbnail">\n' +
+						'\t\t\t<a href="detailmiaosha.html?id='+result[i].id+'">\n' +
+						'\t\t\t\t\t<img src="'+result[i].filePath+'">\n' +
+						'\t\t\t\t\t<div class="caption">\n' +
+						'\t\t\t\t\t<h3>'+result[i].name+'</h3>\n' +
+						// '\t\t\t<p>再见上世纪的手刷方式</p>\n' +
+						// '\t\t\t<p>再见上世纪的手刷方式</p>\n' +
+						'\t\t\t\t\t<p>总数'+result[i].stock+'</p>\n' +
+						'\t\t\t<div class="price">\n' +
+						'\t\t\t\t\t<i>'+result[i].jiage+'元</i>\n' +
+						'\t\t\t\t\t</div>\n' +
+						'\t\t\t\t\t</div>\n' +
+						'\t\t\t\t\t</a>\n' +
+						'\t\t\t\t\t</div>';
+
+
+				divshow.append(str);
+			}
+
+		},
+		//请求失败，包含具体的错误信息
+		error : function(e){
+			console.log(e.status);
+			console.log(e.responseText);
+		}
+	});
+
 
 
 	$(document).on("click","nav.mmenu",function(e){
